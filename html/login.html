@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Londrina+Outline&display=swap" rel="stylesheet"> 
+    <script src="https://kit.fontawesome.com/eec374437b.js" crossorigin="anonymous"></script>   
+    <link rel="stylesheet" href="../css/login.css">
+
+</head>
+<body>
+
+
+
+
+    <section class="login-section">
+        <div class="login-section-container">
+
+    
+            <div class="login-section-title"><i class="fa-brands fa-octopus-deploy"></i> MYSCRAPER</div>
+
+            <div class="login-information-container">
+                
+
+                <form id="loginForm">
+        
+                  
+                    <input type="email" class="email" id="email" name="email" placeholder="email" required>
+                    
+                 
+                    <input type="password" class="password" id="password" name="password" placeholder="password" required>
+                    
+                    <input type="submit" value="Login" class="submit-button" id="login-button">
+                    
+                </form>
+
+            </div>
+
+
+            <div class="signup-container">
+                <div class="signup-container-item1">Don't have an account ?</div>
+                <div class="signup-container-item2"><a href="signup.html">Create an Account</a></div>
+            </div>
+
+            
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    <script>
+
+        document.getElementById("loginForm").addEventListener("submit", function(event){
+            event.preventDefault();
+    
+            var emailInput = document.getElementById("email");
+            var passwordInput = document.getElementById("password");
+    
+            var email = emailInput.value;
+            var password = passwordInput.value;
+    
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:3000/login", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    // Empty the input fields regardless of success or failure
+                    emailInput.value = "";
+                    passwordInput.value = "";
+    
+                    if (xhr.status === 200) {
+                        // Store the token in localStorage
+                        var json = JSON.parse(xhr.responseText);
+                        var token = json.token;
+                        localStorage.setItem('token', token);
+    
+                        // Console log the token
+                        console.log("Token:", token);
+    
+                        // Redirect to home page on successful login
+                        // window.location.href = 'home.html';
+                        window.location.href = 'home.html';
+
+
+
+
+
+
+
+
+                    } else {
+                        alert("Please enter valid information");
+                    }
+                }
+            };
+    
+            var data = JSON.stringify({ "email": email, "password": password });
+            xhr.send(data);
+        });
+
+
+
+    </script>
+
+
+
+</body>
+</html>
+
+

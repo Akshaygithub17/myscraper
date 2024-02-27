@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/eec374437b.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Londrina+Outline&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/account.css">
+</head>
+<body>
+     
+    
+    
+    
+    
+    
+    <!-- html for menubar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-item1"><span><i class="fa-brands fa-octopus-deploy"></i> MYSCRAPER</span></div>
+            <div class="navbar-item2">
+                <ul>
+                    <li class="homeElement" >
+                        <a href="home.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="savedProducts.html">Saved products</a>
+                    </li>
+                    <li class="aboutElement">
+                        <a href="aboutus.html">About us</a>
+                    </li>
+                    <li class="contactElement">
+                        <a href="contact.html">Contact us</a>
+                    </li>
+                    <li>
+                        <a href="account.html" class="active">Account</a>
+                    </li>
+                </ul>
+            </div>
+            
+            
+                
+            </nav>
+        </header>
+        <!-- html for menubar complete -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+   
+    <div class="account-container">
+
+        <div class="accountData-container">
+            <div class="accountData-container-item1">
+                Hi there <i class="fa-solid fa-hand"></i>
+            </div>
+
+            <div class="email-information" id="email-information"></div>
+            <div class="accountData-container-item2">Thank you for using Myscraper!</div>
+        </div>
+
+        <div class="emailId-container">
+            <div class="emailId-container-title">Account Information</div>
+            <div class="emailId" id="emailId"></div>
+            <!-- <div class="password" id="password">sab</div> -->
+        </div>
+            
+        <div class="logout-button-container">
+            <div class="logout-button-container-title">Want to logout from account ?</div>
+            <button id="logout-button">Logout</button>
+        </div>
+
+        <div class="deleteAccount-button-container" id="deleteAccount">
+            <div class="deleteAccount-button-container-title">Want to delete the account ?</div>
+            <button id="deleteAccountBtn">Delete Account</button>
+        </div>
+        
+    
+    </div>
+        
+        
+
+
+
+
+
+
+
+
+  
+    
+    <section class="information-section">
+
+        <div class="information-section-container">
+            
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SITEMAP</div>
+                <div class="information-item1-element information-item1-info"><a href="home.html">Home</a></div>
+                <div class="information-item1-element information-item1-info"><a href="savedProducts.html">Saved products</a></div>
+                <div class="information-item1-element information-item1-info"><a href="aboutus.html">About us</a></div>
+                <div class="information-item1-element information-item1-info"><a href="contact.html">Contact us</a></div>
+                <div class="information-item1-element information-item1-info"><a href="account.html">Account</a></div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SOCIALS</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-facebook"></i>Facebook</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-instagram"></i>Instagram</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-twitter"></i>Twitter</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-youtube"></i>Youtube</div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">CONTACT</div>
+                <div class="information-item1-element"><i class="fa-solid fa-envelope"></i>Email: example@gmail.com</div>
+                <div class="information-item1-element"><i class="fa-solid fa-phone"></i>Phone: +91-12345-67890</div>
+                <div class="information-item1-element"><i class="fa-solid fa-location-dot"></i>Address: xyz city</div>
+    
+            </div>
+    
+    
+        </div>
+        
+    
+        <div class="line-shape1"></div>
+    
+        <div class="information-item2">
+                &copy; 2024 MYSCRAPER | All rights reserved | Terms & Conditions | Privacy Policy
+        </div>
+    
+    </section>
+    
+    
+
+
+
+
+
+
+
+
+<script>
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        // Decode the token to get user information
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const userEmail = decodedToken.email;
+
+        // Display the email inside the div with id 'emailId'
+        document.getElementById('emailId').innerText = 'Username: ' + userEmail;
+        document.getElementById('email-information').innerText = userEmail;
+
+
+        // Add event listener for the "Delete Account" button
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        deleteAccountBtn.addEventListener('click', async () => {
+
+            const confirmation = confirm('Are you sure you want to delete your account?');
+            
+            if(confirmation){
+
+            try {
+                // Make a request to the server to delete the account
+                const response = await fetch('http://localhost:3000/deleteAccount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    // Optionally, you may want to log the user out by removing the token
+                    localStorage.removeItem('token');
+                    
+                    // Redirect to login.html after successful account deletion
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Failed to delete account');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+            }
+
+        }
+        });
+    }
+
+
+      // Logout button click event
+      document.getElementById("logout-button").addEventListener("click", function() {
+            // Remove the token from storage
+            localStorage.removeItem('token');
+            
+            // Redirect to login.html
+            window.location.href = 'login.html';
+        });
+
+
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

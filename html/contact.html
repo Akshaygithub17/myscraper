@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Londrina+Outline&display=swap" rel="stylesheet"> 
+    <script src="https://kit.fontawesome.com/eec374437b.js" crossorigin="anonymous"></script>   
+    <link rel="stylesheet" href="../css/contact.css">
+
+</head>
+<body>
+
+
+
+
+
+      
+    <!-- html for menubar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-item1"><span><i class="fa-brands fa-octopus-deploy"></i> MYSCRAPER</span></div>
+            <div class="navbar-item2">
+                <ul>
+                    <li class="homeElement" >
+                       <a href="home.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="savedProducts.html">Saved products</a>
+                    </li>
+                    <li class="aboutElement">
+                        <a href="aboutus.html">About us</a>
+                    </li>
+                    <li class="contactElement">
+                        <a href="contact.html" class="active">Contact us</a>
+                    </li>
+                    <li>
+                        <a href="account.html">Account</a>
+                    </li>
+                </ul>
+            </div>
+            
+        </nav>
+    </header>
+<!-- html for menubar complete -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="outer-container">
+        
+        <div class="small-container1 ">
+
+
+
+
+                <div class="contact-title">Contact Us</div>
+
+                <form class="contact-form" id="contact-form">
+
+                    <!-- <label for="contact-name">Name:</label> -->
+                    <input type="text" class="contact-name" id="contact-name" name="contact-name" placeholder="Enter name" required>
+                    <!-- <br> -->
+
+                    <!-- <label for="contact-email">Email:</label> -->
+                    <input type="email" class="contact-email" id="contact-email" name="contact-email" placeholder="Enter email" required>
+                    <!-- <br> -->
+
+                    <!-- <label for="contact-data">Message:</label> -->
+                    <textarea class="contact-data" id="contact-data" name="contact-data" rows="4" placeholder="Enter text here" required></textarea>
+                    <!-- <br> -->
+
+                    <button class="contact-button" type="button" id="contact-button">Submit</button>
+
+                </form>
+
+        </div>
+
+
+
+        <div class="small-container2">
+
+            <div class="email-title"><i class="fa-solid fa-envelope"></i> Email:</div>
+            <div class="email">example@gmail.com</div>
+            <div class="phone-title"><i class="fa-solid fa-phone"></i> Phone:</div>
+            <div class="phone">+91-12345-67890</div>
+            <div class="address-title"><i class="fa-solid fa-location-dot"></i> Address:</div>
+            <div class="address">xyz city</div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+    
+  
+    
+    <section class="information-section">
+
+        <div class="information-section-container">
+            
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SITEMAP</div>
+                <div class="information-item1-element information-item1-info"><a href="home.html">Home</a></div>
+                <div class="information-item1-element information-item1-info"><a href="savedProducts.html">Saved products</a></div>
+                <div class="information-item1-element information-item1-info"><a href="aboutus.html">About us</a></div>
+                <div class="information-item1-element information-item1-info"><a href="contact.html">Contact us</a></div>
+                <div class="information-item1-element information-item1-info"><a href="account.html">Account</a></div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SOCIALS</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-facebook"></i>Facebook</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-instagram"></i>Instagram</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-twitter"></i>Twitter</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-youtube"></i>Youtube</div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">CONTACT</div>
+                <div class="information-item1-element"><i class="fa-solid fa-envelope"></i>Email: example@gmail.com</div>
+                <div class="information-item1-element"><i class="fa-solid fa-phone"></i>Phone: +91-12345-67890</div>
+                <div class="information-item1-element"><i class="fa-solid fa-location-dot"></i>Address: xyz city</div>
+    
+            </div>
+    
+    
+        </div>
+        
+    
+        <div class="line-shape1"></div>
+    
+        <div class="information-item2">
+                &copy; 2024 MYSCRAPER | All rights reserved | Terms & Conditions | Privacy Policy
+        </div>
+    
+    </section>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+    const contactButton = document.getElementById("contact-button");
+    const contactForm = document.getElementById("contact-form");
+
+    contactButton.addEventListener("click", function () {
+        const name = document.getElementById("contact-name").value;
+        const email = document.getElementById("contact-email").value;
+        const message = document.getElementById("contact-data").value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:3000/sendEmail", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log("Email sent successfully!");
+                    alert("Email sent successfully!");
+
+                    //Clear all fields after successful submission
+                    contactForm.reset();
+                } else {
+                    console.error("Error sending email. Please try again later.");
+                    alert("Error sending email. Please try again later.");
+                }
+            }
+        };
+
+        const data = JSON.stringify({
+            name: name,
+            email: email,
+            message: message
+        });
+
+        xhr.send(data);
+    });
+});
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Product Information</title>
+    <script src="https://kit.fontawesome.com/eec374437b.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Londrina+Outline&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/oneProduct.css">
+</head>
+<body>
+
+
+    
+       
+    <!-- html for menubar -->
+    <header>
+        <nav class="navbar">
+            <div class="navbar-item1"><span><i class="fa-brands fa-octopus-deploy"></i> MYSCRAPER</span></div>
+            <div class="navbar-item2">
+                <ul>
+                    <li class="homeElement" >
+                       <a href="home.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="savedProducts.html">Saved products</a>
+                        <!-- <a href="../savedProducts.html">Saved products</a> -->
+                    </li>
+                    <li class="aboutElement">
+                        <a href="aboutus.html">About us</a>
+                    </li>
+                    <li class="contactElement">
+                        <a href="contact.html">Contact us</a>
+                    </li>
+                    <li>
+                        <a href="account.html">Account</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            
+
+        </nav>
+    </header>
+    <!-- html for menubar complete -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="oneProduct-container">     
+        
+        
+    <div class="product-information2" id="product-information2"></div>
+
+
+    <div class="oneProduct-input-container">
+
+        <!-- <label for="affordablePrice">Enter Affordable Price:</label> -->
+        <input type="number" id="affordablePrice" placeholder="Enter affordable price">
+        
+        <button onclick="saveProductInfo()">Save Product Info</button>
+        
+    </div>
+    
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    <section class="information-section">
+
+        <div class="information-section-container">
+            
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SITEMAP</div>
+                <div class="information-item1-element information-item1-info">Home</div>
+                <div class="information-item1-element information-item1-info">Saved products</div>
+                <div class="information-item1-element information-item1-info">About us</div>
+                <div class="information-item1-element information-item1-info">Contact us</div>
+                <div class="information-item1-element information-item1-info">Account</div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">SOCIALS</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-facebook"></i>Facebook</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-instagram"></i>Instagram</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-twitter"></i>Twitter</div>
+                <div class="information-item1-element information-item1-info"><i class="fa-brands fa-youtube"></i>Youtube</div>
+            </div>
+    
+            <div class="information-item1">
+                <div class="information-item1-title">CONTACT</div>
+                <div class="information-item1-element"><i class="fa-solid fa-envelope"></i>Email: example@gmail.com</div>
+                <div class="information-item1-element"><i class="fa-solid fa-phone"></i>Phone: +91-12345-67890</div>
+                <div class="information-item1-element"><i class="fa-solid fa-location-dot"></i>Address: xyz city</div>
+    
+            </div>
+    
+    
+        </div>
+        
+    
+        <div class="line-shape1"></div>
+    
+        <div class="information-item2">
+                &copy; 2024 MYSCRAPER | All rights reserved | Terms & Conditions | Privacy Policy
+        </div>
+    
+    </section>
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function saveProductInfo() {
+            // Retrieve product name from the displayed product information div
+            const productName = document.querySelector('#product-information2 .oneProduct-nameSpan').innerText;
+
+            // Retrieve affordable price from the input field
+            // const affordablePrice = document.getElementById('affordablePrice').value;
+
+            const affordablePriceInput = document.getElementById('affordablePrice');
+            const affordablePrice = affordablePriceInput.value;
+
+
+
+            // Create an object with product name and affordable price
+            const productInfo = {
+                productName,
+                affordablePrice,
+            };
+
+            // Add the object to an array
+            // const productInfoArray = [];
+            const productInfoArray = productInfo;
+
+            // productInfoArray.push(productInfo);
+
+
+
+            
+            // Log the array for testing
+            console.log(productInfoArray);
+
+            // Get the token from local storage
+            const token = localStorage.getItem('token');
+
+            // Send the product information to the server
+            fetch('http://localhost:3000/storeProductInfo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ productInfo: productInfoArray })
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                
+                if (result.message === 'Product info stored successfully') {
+                
+                    alert('Data saved successfully');
+                    
+                    affordablePriceInput.value = '';
+
+            } else {
+                // Handle other cases if needed
+                alert('Failed to save data. Please try again.');
+            }
+
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        window.onload = function () {
+            const productInformationDiv = document.getElementById('product-information2');
+
+            
+            const params = new URLSearchParams(window.location.search);
+            const productName = params.get('name');
+            const productPrice = params.get('price');
+
+
+            const productNameSpan =document.createElement('span');
+            productNameSpan.classList.add('oneProduct-nameSpan');
+            productNameSpan.textContent = `${productName}`;
+            // productNameSpan.textContent = `Product Name: ${productName}`;
+            
+
+            productInformationDiv.appendChild(productNameSpan);
+
+
+            const affordablePriceSpan = document.createElement('span');
+            affordablePriceSpan.classList.add('oneProduct-priceSpan');
+            affordablePriceSpan.textContent = `${productPrice}`;
+            // affordablePriceSpan.textContent = `Price: ${productPrice}`;
+            productInformationDiv.appendChild(affordablePriceSpan);
+        };
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
